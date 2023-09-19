@@ -1,8 +1,9 @@
+
 <p id="notice"><%= notice %></p>
 
 <h1>Topics</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
@@ -30,5 +31,11 @@
 </table>
 
 <br>
+<div class="text-center">
+  <%= link_to 'New Topic', new_topic_path, class: 'button' %>  |
+  <%= link_to 'All Posts', posts_path ,class: 'button' %>    |
+  <%= link_to 'All tags', tags_path ,class: 'button' %>
+  </div>
 
-<%= link_to 'New Topic', new_topic_path %>
+
+

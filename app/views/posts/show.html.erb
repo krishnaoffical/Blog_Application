@@ -15,10 +15,15 @@
   <%= @post.date %>
 </p>
 
-<p>
-  <strong>Topic:</strong>
-  <%= @post.topic_id %>
+<p><strong>Tags:</strong>
+  <%# @post.tags.each do |tag| %>
+    <%#= @post.tags do |t|%>
+  <%=render @post.tags%>
+  <%# end %>
+    <%# Add a space or separator here if needed %>
+  <%# end %>
 </p>
+
 
 <!--<%#= link_to 'Edit', edit_topic_post_path([@topic,@post]) %> |-->
 <%= link_to 'Back', topic_posts_url(@topic) %>

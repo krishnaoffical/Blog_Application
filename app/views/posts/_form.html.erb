@@ -26,6 +26,15 @@
     <%= form.datetime_select :date %>
   </div>
 
+  <div class="field">
+
+    <%= form.label :tag %>
+
+      <%=form.collection_select(:tag_ids, Tag.all, :id, :tag, {prompt: "Choose a tag"},{multiple: true})%>
+    <%= form.text_field :new_tag, placeholder: "New Tag Name" %>
+  </div>
+
+
   <div class="actions">
     <%= form.submit %>
   </div>
