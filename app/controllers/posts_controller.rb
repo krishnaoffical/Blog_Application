@@ -13,24 +13,16 @@ class PostsController < ApplicationController
         redirect_to root_path, alert: "Topic not found"
       else
         # Retrieve posts for the specified topic
-        @posts = @topic.posts
+        @posts = @topic.posts.paginate(page: params[:page], per_page: 5)
       end
     else
       # Handle the case when there is no topic_id in the route (e.g., /posts)
       # Retrieve all posts
-      @posts = Post.all
+      @posts = Post.paginate(page: params[:page], per_page:10)
     end
   end
       # GET /posts/1 or /posts/1.json
   def show
-
-      # @topic = Topic.find_by(id: params[:id])
-      #
-      # if @topic.nil?
-      #   # Handle the case where the topic is not found, e.g., redirect to another page or display an error message.
-      #   redirect_to root_path, alert: "Topic not found"
-      # end
-
   end
 
   # GET /posts/new

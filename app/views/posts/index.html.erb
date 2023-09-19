@@ -50,21 +50,23 @@
         <td><%= post.content %></td>
         <td><%= post.date %></td>
         <td><%= render post.tags %></td>
-<!--        <td><%#= link_to '', topic_post_comments_path(@topic,post) %></td>-->
-        <!--        <td><%#= post.topic_id %></td>-->
-<!--        <td><%#= link_to 'Show', topic_post_path(post,:topic_id) %></td>-->
-<!--        <td><%#= link_to 'Edit', edit_topic_post_path(post,:topic_id) %></td>-->
-<!--        <td><%#= button_to 'Destroy', topic_post_path(post,:topic_id), method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+
       </tr>
+
     <% end %>
+
     <%end %>
   </tbody>
 </table>
 
 <br>
+<div class="d-flex justify-content-center">
+<%= will_paginate @posts %>
+</div>
 <%if @topic %>
 <%= link_to 'New Post', new_topic_post_path %> |
 <%= link_to 'Back to Topic', topic_path(@topic) %>
 <%else %>
   <%= link_to 'Back to home', root_path%>
 <%end %>
+
