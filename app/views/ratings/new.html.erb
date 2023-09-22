@@ -1,0 +1,6 @@
+<h1>New Rating</h1>
+<%= render 'ratings/form', locals:{rating: :@rating} %>
+
+<%= link_to 'Back', topic_post_path(@topic,@post) %>|
+<%= link_to 'All Ratings', topic_post_ratings_path(@topic,@post) %>
+

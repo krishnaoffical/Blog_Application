@@ -1,0 +1,42 @@
+<head>
+  <%= stylesheet_link_tag 'posts' %>
+</head>
+<p id="notice"><%= notice %></p>
+
+<h1>Ratings for <%= @post.name %> post</h1>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Rating</th>
+    <th>Stars</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%#if @topic && @post %>
+  <% @post.ratings.each do |rating| %>
+    <tr>
+      <td><%= rating.rating_value %></td>
+      <td><% filled_stars = rating.rating_value.round %>
+        <span class="star-rating">
+    <% 5.times do |i| %>
+      <% if i < filled_stars %>
+        <span class="star filled">&#9733;</span>
+      <% else %>
+        <span class="star">&#9733;</span>
+      <% end %>
+          <% end %></span></td>
+      <!--        <td><%#= comment.post_id %></td>-->
+      <td><%= link_to 'Show', topic_post_rating_path(@topic,@post,rating) %></td>
+      <td><%= link_to 'Edit', edit_topic_post_rating_path(@topic,@post,rating) %></td>
+      <td><%= button_to 'Destroy', topic_post_rating_path(@topic,@post,rating), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'Back to Post', topic_post_path(@topic,@post) %>

@@ -13,7 +13,7 @@ class PostsController < ApplicationController
         redirect_to root_path, alert: "Topic not found"
       else
         # Retrieve posts for the specified topic
-        @posts = @topic.posts.paginate(page: params[:page], per_page: 5)
+        @posts = @topic.posts.paginate(page: params[:page], per_page: 10)
       end
     else
       # Handle the case when there is no topic_id in the route (e.g., /posts)
@@ -23,6 +23,9 @@ class PostsController < ApplicationController
   end
       # GET /posts/1 or /posts/1.json
   def show
+    # @ratings = @post.ratings
+    @average_rating = Rating.where(post_id: @post.id).group(:post_id).average(:rating_value)
+    @ratings_grouped = @post.ratings.group(:rating_value).count
   end
 
   # GET /posts/new

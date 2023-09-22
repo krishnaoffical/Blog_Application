@@ -1,3 +1,6 @@
+<head>
+  <%= stylesheet_link_tag 'posts' %>
+</head>
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -15,15 +18,58 @@
   <%= @post.date %>
 </p>
 
+
 <p><strong>Tags:</strong>
-  <%# @post.tags.each do |tag| %>
-    <%#= @post.tags do |t|%>
   <%=render @post.tags%>
-  <%# end %>
-    <%# Add a space or separator here if needed %>
-  <%# end %>
+</p>
+<% if @average_rating.any? %>
+    <strong>Ratings Count:</strong>
+      <% (1..5).each do |rating_value| %>
+    <div class="star-count">
+    <% 5.times do |i| %>
+      <% if i < rating_value %>
+        <span class="star filled">&#9733;</span>
+      <% else %>
+        <span class="star">&#9733;</span>
+      <% end %>
+          <% end %>(<%= @ratings_grouped[rating_value] || 0 %>)</div>
+      <% end %>
+    </div>
+  <% average_rating =@average_rating[@post.id]  %>
+  <% filled_stars = average_rating.round %>
+  <p><strong>Average Rating: </strong>
+  <span class="star-rating">
+    <% 5.times do |i| %>
+      <% if i < filled_stars %>
+        <span class="star filled">&#9733;</span>
+      <% else %>
+        <span class="star">&#9733;</span>
+      <% end %>
+    <% end %>
+<% else %>
+  <p>No ratings yet.</p>
+<% end %>
+</span></p>
+
+
+<p>
+  <strong>Comments:</strong>
+  <%= render @post.comments.order(id: :desc) %>
+</p>
+<p>
+  <strong>Ratings:</strong>
+  <%= render @post.ratings %>
 </p>
 
 
+
+
+
+<!--<h2>Create New Rating</h2>-->
+<%#= render template: 'ratings/new'%>
+<%= link_to 'Rate this post',new_topic_post_rating_path(@topic,@post) %>  |
+
+
 <!--<%#= link_to 'Edit', edit_topic_post_path([@topic,@post]) %> |-->
-<%= link_to 'Back', topic_posts_url(@topic) %>
+<%= link_to 'Back', topic_posts_url(@topic) %>  |
+  <%= link_to 'Comments', topic_post_comments_path(@topic,@post) %>

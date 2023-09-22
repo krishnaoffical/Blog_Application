@@ -1,0 +1,6 @@
+<h1>Editing Comment</h1>
+
+<%= render 'form', rating: @rating %>
+
+<!--<%#= link_to 'Show', @comment %> |-->
+<%= link_to 'Back', topic_post_rating_path(@topic,@post,@rating) %>

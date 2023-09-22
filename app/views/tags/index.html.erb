@@ -23,6 +23,9 @@
 </table>
 
 <br>
+<div class="d-flex justify-content-center">
+  <%= will_paginate @tags %>
+</div>
 
 <%= link_to 'New Tag', new_tag_path %> |
 <%= link_to 'Back', root_path %>

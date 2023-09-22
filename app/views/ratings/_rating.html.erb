@@ -1,0 +1,15 @@
+<article>
+  <% filled_stars = rating.rating_value.round %>
+  <span class="star-rating">
+    <% 5.times do |i| %>
+      <% if i < filled_stars %>
+        <span class="star filled">&#9733;</span>
+      <% else %>
+        <span class="star">&#9733;</span>
+      <% end %>
+
+    <% end %>
+    </span>
+<!--    <small>(<%#=rating.rating_value %>)</small>-->
+</article>
+<hr/>

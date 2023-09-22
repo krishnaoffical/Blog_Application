@@ -1,3 +1,42 @@
 // Place all the styles related to the posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.star-count {
+  font-size: 14px; /* Adjust the size as needed */
+  display: flex;
+}
+.star-rating {
+  font-size: 20px; /* Adjust the size as needed */
+  display: flex;
+}
+
+.star {
+  color: gray; /* Default star color */
+}
+
+.star.filled {
+  color: gold; /* Filled star color */
+}
+.star-label {
+  cursor: pointer;
+  color: gray; /* Default star color */
+  transition: color 0.2s
+}
+
+.star-label.hovered,
+.star-label.selected{
+  color: gold;
+}
+input[type="radio"]:checked + label {
+  color: gold; /* Change the color to gold on hover and when checked */
+}
+
+.visually-hidden {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* Clip the radio buttons to hide them */
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
