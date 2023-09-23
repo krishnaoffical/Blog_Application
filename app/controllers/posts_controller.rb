@@ -13,7 +13,7 @@ class PostsController < ApplicationController
         redirect_to root_path, alert: "Topic not found"
       else
         # Retrieve posts for the specified topic
-        @posts = @topic.posts.paginate(page: params[:page], per_page: 10)
+        @posts = @topic.posts.paginate(page: params[:page], per_page:10)
       end
     else
       # Handle the case when there is no topic_id in the route (e.g., /posts)
@@ -31,6 +31,7 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = @topic.posts.new
+    # @rating = @post.ratings.new
   end
 
   # GET /posts/1/edit
@@ -42,6 +43,7 @@ class PostsController < ApplicationController
   def create
     @topic = Topic.find(params[:topic_id])
     @post = @topic.posts.build(post_params)
+    # @rating=@post.ratings.build(rating_params)
     tags = params[:post][:tag_ids].reject(&:blank?).map(&:to_i) # Extract selected tag IDs
     new_tag_name = params[:post][:new_tag].strip # Remove leading/trailing whitespace
 
@@ -123,4 +125,9 @@ class PostsController < ApplicationController
       params.require(:post).permit(:name, :content, :date,tags_attributes: [:tag],tag_ids:[])
 
     end
+  # def rating_params
+  #   params.require(:rating).permit(:rating_value)
+  #
+  # end
+
 end

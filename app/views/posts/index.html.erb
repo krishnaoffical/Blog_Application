@@ -60,9 +60,12 @@
 </table>
 
 <br>
-<div class="d-flex justify-content-center">
-<%= will_paginate @posts %>
-</div>
+
+  <div class="d-flex justify-content-center">
+    <%= will_paginate @posts %>
+  </div>
+
+
 <%if @topic %>
 <%= link_to 'New Post', new_topic_post_path %> |
 <%= link_to 'Back to Topic', topic_path(@topic) %>

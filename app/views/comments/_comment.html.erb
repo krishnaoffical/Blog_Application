@@ -1,4 +1,12 @@
 <article>
-  <p><%=comment.content %></p>
+  <table class="table table-striped">
+    <tbody>
+    <tr>
+  <td><%=comment.content %></td>
+  <td><%= link_to 'Edit', edit_topic_post_comment_path(@topic,@post,comment) %></td>
+  <td><%= button_to 'Destroy', topic_post_comment_path(@topic,@post,comment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+  </tbody>
+  </table>
 </article>
 <hr/>

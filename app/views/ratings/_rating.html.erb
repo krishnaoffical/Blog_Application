@@ -1,6 +1,9 @@
 <article>
-  <% filled_stars = rating.rating_value.round %>
-  <span class="star-rating">
+  <table class="table table-striped">
+    <tbody>
+    <tr>
+      <td>
+  <% filled_stars = rating.rating_value%>
     <% 5.times do |i| %>
       <% if i < filled_stars %>
         <span class="star filled">&#9733;</span>
@@ -8,8 +11,12 @@
         <span class="star">&#9733;</span>
       <% end %>
 
-    <% end %>
-    </span>
-<!--    <small>(<%#=rating.rating_value %>)</small>-->
+    <% end %></td>
+<!--    <%#= link_to 'Show', topic_post_rating_path(@topic,@post,rating) %></td>-->
+    <td><%= link_to 'Edit', edit_topic_post_rating_path(@topic,@post,rating) %></td>
+    <td><%= button_to 'Destroy', topic_post_rating_path(@topic,@post,rating), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+    </tbody>
+  </table>
 </article>
 <hr/>
