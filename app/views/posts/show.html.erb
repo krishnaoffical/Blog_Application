@@ -2,7 +2,16 @@
   <%= stylesheet_link_tag 'posts' %>
 </head>
 <p id="notice"><%= notice %></p>
+<h1>Post Details</h1>
+<p>
+  <strong>Image Posted:</strong>
+  <% if @post && @post.image.attached? %>
+    <%= link_to image_tag(@post.image, loading: "lazy", class: "image"), @post.image%>
+  <% else %>
+    No image attached.
+  <% end %>
 
+</p>
 <p>
   <strong>Name:</strong>
   <%= @post.name %>
@@ -22,7 +31,8 @@
 <p><strong>Tags:</strong>
   <%=render @post.tags%>
 </p>
-
+<div>
+<div>
 <% if @average_rating.any? %>
     <strong>Ratings Count:</strong>
       <% (1..5).each do |rating_value| %>
@@ -52,6 +62,7 @@
   <p>No ratings yet.</p>
 <% end %>
 </span></p>
+  </div>
 
 <p>
   <strong>Comments:</strong>
@@ -65,12 +76,13 @@
 <div style="display: flex; justify-content:space-around;">
   <div>
     <%= render 'comments/form', locals: { comment: @comment } %>
+    <%= link_to 'All Comments', topic_post_comments_path(@topic,@post) %>
   </div>
   <div>
     <%= render 'ratings/form' %>
+    <%= link_to 'All Ratings',topic_post_ratings_path(@topic,@post) %>
   </div>
 </div>
-
 
 
 
@@ -79,7 +91,7 @@
 <!--<h2>Create New Rating</h2>-->
 <%#= render template: 'ratings/new'%>
 <div class="text-center">
-<%= link_to 'Ratings',topic_post_ratings_path(@topic,@post) %>  |
-<%= link_to 'Back', topic_posts_url(@topic) %>  |
-  <%= link_to 'Comments', topic_post_comments_path(@topic,@post) %>
+  <%= link_to 'Edit Post',edit_topic_post_path(@topic,@post) %> |
+<%= link_to 'Back', topic_posts_url(@topic) %>
+
 </div>

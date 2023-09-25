@@ -55,3 +55,41 @@ input[type="radio"]:checked + label {
   min-height: 100px; /* Set a minimum height */
 }
 
+#image-preview {
+  max-width: 300px;/* Adjust the maximum width as needed */
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  padding: 10px;
+}
+.image {
+  //max-width: 300px;/* Adjust the maximum width as needed */
+  //border: 1px solid #ccc;
+  //margin-top: 10px;
+  //padding: 10px;
+  width: auto; /* Set the desired width */
+  height: 250px; /* Maintain the aspect ratio */
+  border: 2px solid #ccc; /* Add a border */
+  margin: 10px;
+}
+/* Style the tag container to control spacing */
+.tag-container {
+  margin-top: 10px; /* Adjust the margin as needed */
+}
+
+/* Style the individual tags as inline elements */
+.tag {
+  display: inline-block; /* Display tags inline */
+  background-color: #007BFF; /* Set the background color */
+  color: white; /* Set the text color */
+  padding: 1px 10px; /* Add padding to the tags */
+  margin-right: 5px; /* Adjust the spacing between tags */
+  border-radius: 50px; /* Round the corners of the tags */
+  font-size: 14px; /* Set the font size */
+  text-decoration: none; /* Remove underline from tags */
+}
+
+/* Style the hover effect (optional) */
+.tag:hover {
+  background-color: #0056b3; /* Change background color on hover */
+  cursor: pointer; /* Show a pointer cursor on hover */
+}
