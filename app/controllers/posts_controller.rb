@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   before_action :set_topic, only: %i[ show edit new update destroy ]
   before_action :set_post, only: %i[ show edit update destroy ]
 
+
   # GET /posts or /posts.json
   def index
     if params[:topic_id].present?
@@ -77,22 +78,6 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     @post = @topic.posts.find(params[:id])
-
-    # tags = params[:post][:tag_ids].reject(&:blank?).map(&:to_i) # Extract selected tag IDs
-    # new_tag_name = params[:post][:new_tag].strip # Remove leading/trailing whitespace
-    #
-    # if new_tag_name.present?
-    #   # If a new tag name is provided, create a new tag
-    #   existing_tag = Tag.find_by(tag: new_tag_name)
-    #   if existing_tag
-    #     # If the tag already exists, use its ID
-    #     tags << existing_tag.id
-    #   else
-    #     tag = Tag.create(tag: new_tag_name)
-    #     tags << tag.id # Add the new tag's ID to the selected tags
-    #   end
-    # end
-    # @post.tag_ids = tags
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to topic_post_url(@topic), notice: "Post was successfully updated." }

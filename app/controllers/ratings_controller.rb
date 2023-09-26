@@ -24,7 +24,10 @@ class RatingsController < ApplicationController
   end
     def create
       @topic = Topic.find(params[:topic_id])
-      @post = p@topic.posts.find(params[:post_id])
+      @post = @topic.posts.find(params[:post_id])
+      if params[:rating].nil?
+        redirect_to topic_post_path(@topic, @post),alert: "Enter the rating"
+        else
       @rating = @post.ratings.build(rating_params)
 
   # respond_to do |format|
@@ -37,7 +40,8 @@ class RatingsController < ApplicationController
       format.html { render :new, status: :unprocessable_entity }
       format.json { render json: @comment.errors, status: :unprocessable_entity }
     end
-  end
+      end
+      end
     def update
       @topic = Topic.find(params[:topic_id])
       @post = @topic.posts.find(params[:post_id])

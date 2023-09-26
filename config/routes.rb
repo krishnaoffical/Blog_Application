@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :tags
   root 'topics#index'
-  resources :posts
-  # get '/posts',to: 'posts#all_posts',as: 'all_posts'
+  get 'posts',to:'posts#index'
+  # resources :posts
   resources :topics do
     resources :posts do
       resources :comments
