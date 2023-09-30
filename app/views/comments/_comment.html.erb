@@ -3,8 +3,11 @@
     <tbody>
     <tr>
   <td><%=comment.content %></td>
+      <td><%=comment.user.email %></td>
+      <%# if current_user == comment.user %>
   <td><%= link_to 'Edit', edit_topic_post_comment_path(@topic,@post,comment) %></td>
   <td><%= button_to 'Destroy', topic_post_comment_path(@topic,@post,comment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%#end %>
   </tr>
   </tbody>
   </table>

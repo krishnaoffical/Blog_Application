@@ -13,7 +13,8 @@
       <th>Content</th>
       <th>Date</th>
       <th>Tags</th>
-<!--      <th>Topic</th>-->
+      <th>Author(User)</th>
+      <!--      <th>Topic</th>-->
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -25,11 +26,19 @@
         <td><%= post.name %></td>
         <td><%= post.content %></td>
         <td><%= post.date %></td>
+
         <td><%= render post.tags %></td>
-<!--        <td><%#= post.topic_id %></td>-->
+        <% if post.user.present? %>
+          <td><%= post.user.email %></td>
+        <%else %>
+          <td>Unknown</td>
+        <%end %>
+
         <td><%= link_to 'Show', topic_post_path(@topic,post) %></td>
+        <%# if current_user == post.user %>
         <td><%= link_to 'Edit', edit_topic_post_path(@topic,post) %></td>
         <td><%= button_to 'Destroy', topic_post_path(@topic,post), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <%#end %>
 
 
       </tr>
@@ -40,6 +49,11 @@
         <td><%= post.name %> (<%= post.topic.name %>)</td>
         <td><%= post.content %></td>
         <td><%= post.date %></td>
+        <% if post.user.present? %>
+        <td><%= post.user.email %></td>
+          <%else %>
+          <td>Unknown</td>
+          <%end %>
         <td><%= render post.tags %></td>
 
       </tr>

@@ -5,10 +5,11 @@
   <%= @comment.content %>
 </p>
 
-<!--<p>-->
-<!--  <strong>Post:</strong>-->
-  <%#= @comment.post_id %>
-<!--</p>-->
-
+<p>
+  <strong>Author(User):</strong>
+  <%= @comment.user.email %>
+</p>
+<%# if current_user == @comment.user %>
 <%= link_to 'Edit', edit_topic_post_comment_path(@topic,@post,@comment) %> |
+  <%#end %>
 <%= link_to 'Back', topic_post_comments_path %>

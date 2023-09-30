@@ -63,7 +63,14 @@
 <% end %>
 </span></p>
   </div>
-
+<div>
+  <strong>Author(User):</strong>
+<% if @post.user.present? %>
+    <p><%= @post.user.email %></p>
+<%else %>
+  <p>Unknown</p>
+<%end %>
+</div>
 <p>
   <strong>Comments:</strong>
   <%= render @post.comments.order(id: :desc) %>
@@ -91,7 +98,9 @@
 <!--<h2>Create New Rating</h2>-->
 <%#= render template: 'ratings/new'%>
 <div class="text-center">
+  <%# if current_user == @post.user %>
   <%= link_to 'Edit Post',edit_topic_post_path(@topic,@post) %> |
+    <%#end %>
 <%= link_to 'Back', topic_posts_url(@topic) %>
 
 </div>
