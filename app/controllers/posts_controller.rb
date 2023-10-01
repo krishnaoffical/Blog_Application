@@ -13,14 +13,16 @@ class PostsController < ApplicationController
       if @topic.nil?
         redirect_to root_path, alert: "Topic not found"
       else
-        # Retrieve posts for the specified topic
-        @posts = @topic.posts.paginate(page: params[:page], per_page:10)
+        @posts = @topic.posts
         # @posts = @topic.posts.page(params[:page]).per(10)
       end
     else
       #  @posts = Post.page(params[:page]).per(10)
-      @posts = Post.paginate(page: params[:page], per_page: 10)
+      @posts = Post.all
     end
+    @posts = @posts.paginate(page: params[:page], per_page: 10)
+    @average_ratings = Rating.group(:post_id).average(:rating_value)
+    @comment_count = Comment.group(:post_id).count
   end
       # GET /posts/1 or /posts/1.json
   def show
