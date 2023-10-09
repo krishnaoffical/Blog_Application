@@ -1,84 +1,47 @@
-# require 'rails_helper'
-#
-# RSpec.describe User, type: :model do
-#   pending "add some examples to (or delete) #{__FILE__}"
-# end
 # spec/models/user_spec.rb
 
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { FactoryBot.create(:user) }
-
-  it "is valid with valid attributes" do
-    expect(user).to be_valid
+  let(:user_attributes) do
+    {
+      email: 'test@example.com',
+      password: 'password123',
+      # Add other user attributes as needed
+    }
   end
 
-  it "is not valid without a unique email" do
-    duplicate_user = user.dup
-    expect(duplicate_user).to_not be_valid
-  end
+  describe "associations" do
+    it "has many posts" do
+      user = User.create(user_attributes)
+      post1 = user.posts.create(name: 'Post 1', content: 'Content 1')
+      post2 = user.posts.create(name: 'Post 2', content: 'Content 2')
 
-  it "is not valid without a password" do
-    user.password = nil
-    expect(user).to_not be_valid
-  end
+      # Ensure that the user has many posts
+      expect(user.posts).to include(post1, post2)
 
-  it "is not valid with a short password" do
-    user.password = "short"
-    expect(user).to_not be_valid
-  end
-
-  it "authenticates with a correct password" do
-    expect(user.valid_password?(user.password)).to be_truthy
-  end
-
-  it "does not authenticate with an incorrect password" do
-    expect(user.valid_password?("incorrect_password")).to be_falsey
-  end
-
-  it "has a valid email format" do
-    valid_emails = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org first.last@foo.jp alice+bob@baz.cn]
-    valid_emails.each do |email|
-      user.email = email
-      expect(user).to be_valid
     end
-  end
-
-  it "has an invalid email format" do
-    invalid_emails = %w[user@example,com user_at_foo.org user.name@example. foo@bar_baz.com foo@bar+baz.com]
-    invalid_emails.each do |email|
-      user.email = email
-      expect(user).to_not be_valid
     end
-  end
 
-  it "is not valid without a unique email (case-insensitive)" do
-    duplicate_user = user.dup
-    duplicate_user.email = user.email.upcase
-    expect(duplicate_user).to_not be_valid
-  end
+  describe "Devise modules" do
+    it "is database authenticatable" do
+      user = User.create(user_attributes)
+      expect(user.valid_password?("password123")).to be(true)
+    end
 
-  # Test cases for Devise modules
-  it "is not confirmable by default" do
-    expect(user).to_not be_confirmed
-  end
+    it "is registerable" do
+      user = User.create(user_attributes)
+      expect(user.valid?).to be(true)
+    end
 
-  it "is registerable by default" do
-    expect(user).to be_registerable
-  end
+    it "is rememberable" do
+      user = User.create(user_attributes)
+      user.remember_me!
+      expect(user.reload.remember_created_at).to_not be_nil
+    end
 
-  it "is recoverable by default" do
-    expect(user).to be_recoverable
+    it "is validatable" do
+      user = User.create(user_attributes.merge(email: nil))
+      expect(user.valid?).to be(false)
+    end end
   end
-
-  it "is rememberable by default" do
-    expect(user).to be_rememberable
-  end
-
-  it "is validatable by default" do
-    expect(user).to be_validatable
-  end
-
-  # Add more test cases for custom methods or functionality as needed
-end

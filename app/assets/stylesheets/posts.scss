@@ -95,4 +95,32 @@ input[type="radio"]:checked + label {
 }
 /* app/assets/stylesheets/application.css */
 
+td.read {
+  color: green; /* Style for read posts */
+}
+
+td.unread {
+  color: red; /* Style for unread posts */
+}
+/* Pagination container */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Pagination link */
+.pagination-container a.page-link {
+  text-decoration: none;
+  color: #007bff; /* Link color */
+  margin: 0 5px; /* Add some space between links */
+}
+
+/* Active pagination link */
+.pagination-container .page-item.active a.page-link {
+  font-weight: bold; /* Highlight the active link */
+  background-color: #007bff; /* Background color of the active link */
+  color: #fff; /* Text color of the active link */
+  border-color: #007bff; /* Border color of the active link */
+}
 

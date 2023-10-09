@@ -9,13 +9,13 @@ class RatingsController < ApplicationController
       @topic = Topic.find(params[:topic_id])
       @post = @topic.posts.find(params[:post_id])
       @rating = @post.ratings.new
-      # @comment = Comment.new(comment_params)
+
   end
   def show
     @topic = Topic.find(params[:topic_id])
     @post = @topic.posts.find(params[:post_id])
     @rating = @post.ratings.find(params[:id])
-    # @comment = Comment.new(comment_params)
+
   end
   def edit
     @topic = Topic.find(params[:topic_id])
@@ -65,11 +65,7 @@ class RatingsController < ApplicationController
 
 
        @rating.destroy
-      # redirect_to @post
-      # respond_to do |format|
         redirect_to topic_post_path(@topic, @post), notice: "Rating was successfully deleted."
-        # format.html { redirect_to topic_post_ratings_path, notice: 'Rating was successfully destroyed.' }
-        # format.json { head :no_content }
       end
     # end
 

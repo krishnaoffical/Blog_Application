@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
   devise_for :users
+  # config/routes.rb
   resources :tags
   root 'topics#index'
   get 'posts',to:'posts#index'
   # resources :posts
   resources :topics do
     resources :posts do
+      member do
+        get 'read_status'
+      end
       resources :comments
       resources :ratings
     end

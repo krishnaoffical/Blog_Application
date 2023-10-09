@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class CommentsController < ApplicationController
-  # after_action :verify_authorized, only: :edit
   load_and_authorize_resource only: [:edit, :update, :destroy]
 
   # GET /comments or /comments.json
@@ -72,10 +71,6 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     # authorize @comment
     @comment.destroy
-    # respond_to do |format|
-    #   format.html { redirect_to topic_post_comments_path, notice: 'Comment was successfully destroyed.' }
-    #   format.json { head :no_content }
-    # end
     redirect_to topic_post_path(@topic, @post), notice: "Comment was successfully deleted."
   end
 

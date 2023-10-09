@@ -1,0 +1,23 @@
+// app/assets/javascripts/post_status.js
+document.addEventListener('DOMContentLoaded', function() {
+    var postElement = document.querySelector('.post-detail'); // Adjust the selector accordingly
+    var postId = postElement.dataset.postId; // Assuming you have the post ID available in the data attributes
+
+    // Make an AJAX call to update the read status
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/topics/' + <%= @topic.id %> + '/posts/' + postId + '/mark_as_read', true); // Use the appropriate route for marking a post as read
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // The post has been marked as read
+                postElement.classList.remove('unread');
+                postElement.classList.add('read');
+            } else {
+                console.error('Error marking post as read.');
+            }
+        }
+    };
+
+    xhr.send();
+});
