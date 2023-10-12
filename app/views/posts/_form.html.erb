@@ -20,10 +20,43 @@
           }
       }
 
+      document.addEventListener('DOMContentLoaded', function () {
+          // Attach an event listener to the form submit button
+          var newPostForm = document.getElementById('new-post-form');
+          newPostForm.addEventListener('submit', function (event) {
+              event.preventDefault(); // Prevent the default form submission
+
+              // Serialize form data
+              var formData = new FormData(newPostForm);
+
+              // Make an AJAX request
+              var xhr = new XMLHttpRequest();
+              xhr.open('POST', '<%= topic_posts_path(@topic) %>', true);
+              xhr.setRequestHeader('X-CSRF-Token', Rails.csrfToken());
+              xhr.onload = function () {
+                  if (xhr.status === 200) {
+                      var response = JSON.parse(xhr.responseText);
+                      var newPostHtml = response.html;
+
+                      // Append the new post HTML to the list of posts
+                      var postList = document.getElementById('post-list');
+                      postList.insertAdjacentHTML('afterbegin', newPostHtml);
+
+                      // Clear the form after successful submission
+                      newPostForm.reset();
+                      document.getElementById('image-preview').innerHTML = '';
+                  } else {
+                      alert('Error creating post');
+                  }
+              };
+              xhr.send(formData);
+          });
+      });
+
   </script>
   <%= stylesheet_link_tag 'posts' %>
 </head>
-<%= form_with(model: [@topic,post], local: true, multipart: true) do |form| %>
+<%= form_with(model: [@topic,post],local: false, id: 'new-post-form') do |form| %>
   <% if post.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
@@ -70,6 +103,6 @@
 
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit  %>
   </div>
 <% end %>

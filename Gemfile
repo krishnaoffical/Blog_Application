@@ -69,3 +69,9 @@ gem "devise", "~> 4.9"
 gem "pundit", "~> 2.3"
 
 gem "cancancan", "~> 3.5"
+gem 'bootstrap-sass'
+
+
+gem "rails-ujs", "~> 0.1.0"
+
+gem "jquery-rails", "~> 4.6"

@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  validates :name, length: { maximum: 20 }
   belongs_to :topic
   has_many :ratings, dependent: :destroy
   has_many :comments, dependent: :destroy

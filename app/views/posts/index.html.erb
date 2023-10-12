@@ -1,6 +1,6 @@
 <head>
   <%= stylesheet_link_tag 'posts' %>
-  <script>
+    <script>
 
       document.addEventListener("DOMContentLoaded", function () {
           // Assuming you have a variable 'currentUserId' that holds the ID of the current user.
@@ -45,19 +45,91 @@
           }
 
           // Set an interval to periodically check and update read status (e.g., every 5 seconds)
-         setInterval(checkAndUpdateReadStatus,5000)  // Adjust the interval as needed
+         // setInterval(checkAndUpdateReadStatus,5000)
+          checkAndUpdateReadStatus();
       });
+      document.addEventListener("DOMContentLoaded", function() {
+          // Handle the click event for opening the new post form
+          var openPostFormLink = document.getElementById('open-post-form-link');
+          var newPostFormContainer = document.getElementById('new-post-form-container');
+
+          openPostFormLink.addEventListener('click', function(event) {
+              event.preventDefault(); // Prevent the default link behavior
+              openPostFormLink.style.display = 'none';
+              // Create a new XMLHttpRequest
+              var xhr = new XMLHttpRequest();
+
+              // Set up the request
+              xhr.open('GET', '<%= new_topic_post_path(@topic) %>', true);
+
+              // Define the event handler for when the request is completed
+              xhr.onload = function() {
+                  if (xhr.status === 200) {
+                      // Insert the form HTML into the container
+                      newPostFormContainer.innerHTML = xhr.responseText;
+                  } else {
+                      alert('Error fetching form: ' + xhr.statusText);
+                  }
+              };
+
+              // Send the request
+              xhr.send();
+          });
+      });
+         document.addEventListener('DOMContentLoaded', function () {
+          var newPostForm = document.getElementById('new-post-form');
+          var loadingIndicator = document.getElementById('loading-indicator'); // Added this line
+
+          newPostForm.addEventListener('submit', function (event) {
+          event.preventDefault(); // Prevent the default form submission
+
+          loadingIndicator.style.display = 'block'; // Display the loading indicator
+
+          var formData = new FormData(newPostForm);
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '<%= topic_posts_path(@topic) %>', true);
+          xhr.setRequestHeader('X-CSRF-Token', Rails.csrfToken());
+          xhr.onload = function () {
+          loadingIndicator.style.display = 'none'; // Hide the loading indicator
+
+          if (xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          var newPostHtml = response.html;
+
+          var postList = document.getElementById('post-list');
+          postList.insertAdjacentHTML('afterbegin', newPostHtml);
+
+          newPostForm.reset();
+          document.getElementById('image-preview').innerHTML = '';
+
+          // Check if there are any error messages
+          var errorExplanation = document.getElementById('error_explanation');
+          errorExplanation.innerHTML = ''; // Clear any previous error messages
+      } else {
+          alert('Error creating post');
+      }
+      };
+          xhr.send(formData);
+      });
+      });
+
+
+
+
   </script>
 
 </head>
-<p id="notice"><%= notice %></p>
+<div id="loading-indicator" style="display: none;">
+  Loading... <!-- You can replace this with your preferred loading indicator HTML -->
+</div>
+
+<div id="post-list">
 
 <% if @topic %>
   <h1>Posts for <%= @topic.name %> Topic</h1>
 <% else %>
   <h1>All Posts</h1>
 <% end %>
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -95,7 +167,10 @@
       <% else %>
         <span class="star">&#9733;</span>
       <% end %>
-                  <%end %>(<%= '%.1f' % @average_ratings[post.id] %> stars)</div></td>
+                  <%end %>
+    (<%= '%.1f' % @average_ratings[post.id] %> stars)
+      </div>
+      </td>
         <% else %>
           <td>No ratings yet</td>
         <% end %>
@@ -168,12 +243,11 @@
   <%= will_paginate @posts %>
 </div>
 
-
-
+</div>
 <%if @topic %>
-<%= link_to 'New Post', new_topic_post_path %> |
-<%= link_to 'Back to Topic', topic_path(@topic) %>
+  <%= link_to 'New Post', new_topic_post_path(@topic),remote: true ,id: 'open-post-form-link'%>
+  <div id="new-post-form-container"></div>
+  <%= link_to 'Back to Topic', topic_path(@topic) %>
 <%else %>
   <%= link_to 'Back to home', root_path%>
 <%end %>
-

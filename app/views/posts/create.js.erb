@@ -1,0 +1,13 @@
+alert("successfully");
+// create.js.erb
+// JavaScript code to handle post creation response
+
+<% if @post.errors.any? %>
+// Error case: Display the error messages
+alert("Error creating post:\n<%= j @post.errors.full_messages.join(', ') %>");
+<% else %>
+// Success case: Display a success message
+alert("Post created successfully");
+<% end %>
+
+

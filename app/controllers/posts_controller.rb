@@ -85,11 +85,13 @@ class PostsController < ApplicationController
       end
     respond_to do |format|
       if @post.save
-        format.html { redirect_to [@topic,@post], notice: "Post was successfully created." }
+        format.html { redirect_to topic_posts_url(@topic), notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
+        format.js
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to topic_posts_url(@topic),notice: "The post length should be less than 20 characters"}
         format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.js
       end
     end
       end
