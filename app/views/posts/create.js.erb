@@ -1,13 +1,36 @@
-alert("successfully");
 // create.js.erb
 // JavaScript code to handle post creation response
-
-<% if @post.errors.any? %>
+    <% if @post.errors.any? %>
 // Error case: Display the error messages
-alert("Error creating post:\n<%= j @post.errors.full_messages.join(', ') %>");
-<% else %>
-// Success case: Display a success message
-alert("Post created successfully");
-<% end %>
+    alert("Error creating post:\n<%= j @post.errors.full_messages.join(', ') %>");
+    <% else %>
+            window.location.reload();
+            alert("Post created successfully");
+//var loadingIndicator = $("<div class='loading-indicator'>Loading...</div>");
+//$("#post-list").html(loadingIndicator);
+//var loadingIndicator = $(".loading-icon");
+//loadingIndicator.show();
+// Make an AJAX request to fetch and update the post list
+//$.ajax({
+//    url: "/topics/< @topic.id %>/posts", //Replace with the actual URL of your post list partial for the specific topic
+//    type: "GET",
+//    dataType: "html",
+//    success: function(data) {
+//        // Replace the loading indicator with the updated post list content
+//        $("#post-list").html(data);
+//        loadingIndicator.hide();
+//        // Close the loading indicator
+//        loadingIndicator.remove();
+
+//        alert("Post created successfully");
+//    },
+//    error: function() {
+//        // Close the loading indicator in case of an error
+//        loadingIndicator.remove();
+//        loadingIndicator.hide();
+//        alert("An error occurred while updating the post list.");
+//    }
+//});
+    <% end %>
 
 

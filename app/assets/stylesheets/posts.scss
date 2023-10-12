@@ -124,3 +124,21 @@ td.unread {
   border-color: #007bff; /* Border color of the active link */
 }
 
+.loading-icon {
+  display: none; /* Initially, hide the loading icon */
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  padding: 10px;
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 20px 0;
+  animation: spin 2s linear infinite; /* Add a simple spinning animation */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
