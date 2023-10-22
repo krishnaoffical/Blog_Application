@@ -1,37 +1,45 @@
 <%= form_with(model: topic) do |form| %>
-  <% if topic.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+  <div class="form-group mb-3">
+    <%= form.label :name, class: 'control-label' %>
+    <%= form.text_field :name, class: "form-control small-text-field#{'is-invalid' if topic.errors[:name].any?}", placeholder: 'Enter Name' %>
+    <% if topic.errors[:name].any? %>
+      <div class="invalid-feedback">
+        <%= topic.errors.full_messages_for(:name).join(', ') %>
+      </div>
+    <% end %>
+  </div>
 
-      <ul>
-        <% topic.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
+  <div class="form-group mb-3">
+    <%= form.label :description, class: 'control-label' %>
+    <%= form.text_area :description, class: "form-control ",style: 'height: 100px;width: 500px' %>
+    <% if topic.errors[:description].any? %>
+      <div class="invalid-feedback">
+        <%= topic.errors.full_messages_for(:description).join(', ') %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= form.label :publication_year, class: 'control-label' %>
+    <%= form.number_field :publication_year, class: "form-control small-text-field#{'is-invalid' if topic.errors[:publication_year].any?}", placeholder: 'Enter Publication Year' %>
+    <% if topic.errors[:publication_year].any? %>
+      <div class="invalid-feedback">
+        <%= topic.errors.full_messages_for(:publication_year).join(', ') %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= form.label :published_by, class: 'control-label' %>
+    <%= form.text_field :published_by, class: "form-control small-text-field#{'is-invalid' if topic.errors[:published_by].any?}", placeholder: 'Enter Published By' %>
+    <% if topic.errors[:published_by].any? %>
+      <div class="invalid-feedback">
+        <%= topic.errors.full_messages_for(:published_by).join(', ') %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group d-flex justify-content-center" style="margin-top: 20px;">
+    <%= form.submit 'Submit', class: 'btn btn-primary' %>
+  </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_field :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :publication_year %>
-    <%= form.number_field :publication_year %>
-  </div>
-
-  <div class="field">
-    <%= form.label :published_by %>
-    <%= form.text_field :published_by %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>

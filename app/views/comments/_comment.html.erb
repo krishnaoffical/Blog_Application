@@ -3,11 +3,16 @@
     <tbody>
     <tr>
   <td><%=comment.content %></td>
-      <td><%=comment.user.email %></td>
+      <td><%= comment.user.email if comment.user %></td>
+      <% if comment.user_comment_ratings.where(user_id: current_user.id).empty? %>
+      <td><%=render 'user_comment_ratings/comment_rating_form',comment_rating: comment.user_comment_ratings.build,comment: comment %></td>
       <%# if current_user == comment.user %>
+        <%end %>
+      <td><%= link_to 'Show Ratings', topic_post_comment_user_comment_ratings_path(@topic, @post, comment) %></td>
   <td><%= link_to 'Edit', edit_topic_post_comment_path(@topic,@post,comment) %></td>
   <td><%= button_to 'Destroy', topic_post_comment_path(@topic,@post,comment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <%#end %>
+<!--      <td><%#= link_to 'View Ratings', comment_rating_topic_post_comment_path(@topic,@post,comment) %></td>-->
   </tr>
   </tbody>
   </table>

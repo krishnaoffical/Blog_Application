@@ -70,6 +70,9 @@ gem "pundit", "~> 2.3"
 
 gem "cancancan", "~> 3.5"
 gem 'bootstrap-sass'
+group :development do
+  gem 'bullet'
+end
 
 
 gem "rails-ujs", "~> 0.1.0"

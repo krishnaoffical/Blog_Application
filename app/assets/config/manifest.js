@@ -2,6 +2,7 @@
 //= link_tree ../builds
 //= link posts.css
 //= link ratings.css
+//= link topics.css
 //= link tags.css
 
 //= link rails-ujs.js

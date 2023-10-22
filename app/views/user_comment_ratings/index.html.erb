@@ -1,0 +1,19 @@
+
+<h2>Ratings for Comment:</h2>
+<table>
+  <thead>
+  <tr>
+    <th>User</th>
+    <th>Rating</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @user_comment_ratings.each do |rating| %>
+    <tr>
+      <td><%= rating.user.email %></td>
+      <td><%= rating.rating %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= link_to 'Back',topic_post_path(@topic,@post) %>

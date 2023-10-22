@@ -88,8 +88,8 @@
         <%else %>
           <td>Unknown</td>
         <%end %>
-        <% if @average_ratings[post.id].present? %>
-            <% filled_stars = @average_ratings[post.id].round %>
+        <% if post.rating_average.present? %>
+            <% filled_stars = post.rating_average.round %>
               <td><div class="star-count">
     <% 5.times do |i| %>
       <% if i < filled_stars %>
@@ -97,15 +97,15 @@
       <% else %>
         <span class="star">&#9733;</span>
       <% end %>
-                  <%end %>
-    (<%= '%.1f' % @average_ratings[post.id] %> stars)
+                <%end %>
+    (<%= '%.1f' % post.rating_average %> stars)
       </div>
       </td>
         <% else %>
           <td>No ratings yet</td>
         <% end %>
-          <% if @comment_count[post.id].present? %>
-            <td><%= @comment_count[post.id] %> comments</td>
+          <% if post.comments_count.present? %>
+            <td><%= post.comments_count %> comments</td>
           <% else %>
             <td>No comments yet</td>
           <% end %>
@@ -126,8 +126,14 @@
       </tr>
     <% end %>
     <%else %>
+    <form action="/posts" method="get">
+      From Date: <input type="date" name="from_date">
+      To Date: <input type="date" name="to_date">
+      <input type="submit" value="Show details">
+    </form>
     <% @posts.each do |post| %>
       <tr>
+
         <td><%= post.name %> (<%= post.topic.name %>)</td>
         <td><%= post.content %></td>
         <td><%= post.date %></td>
@@ -137,8 +143,8 @@
           <%else %>
           <td>Unknown</td>
           <%end %>
-        <% if @average_ratings[post.id].present? %>
-          <% filled_stars = @average_ratings[post.id].round %>
+        <% if post.rating_average.present? %>
+          <% filled_stars = post.rating_average.round %>
           <td><div class="star-count">
             <% 5.times do |i| %>
               <% if i < filled_stars %>
@@ -146,12 +152,12 @@
               <% else %>
                 <span class="star">&#9733;</span>
               <% end %>
-            <%end %>(<%= '%.1f' % @average_ratings[post.id] %> stars)</div></td>
+            <%end %>(<%= '%.1f' %post.rating_average %> stars)</div></td>
         <% else %>
           <td>No ratings yet</td>
         <% end %>
-        <% if @comment_count[post.id].present? %>
-          <td><%= @comment_count[post.id] %> comments</td>
+        <% if post.comments_count.present? %>
+          <td><%=post.comments_count %> comments</td>
         <% else %>
           <td>No comments yet</td>
         <% end %>
