@@ -11,7 +11,7 @@ class UserCommentRatingsController < ApplicationController
 
   def create
     @user_comment_rating = @comment.user_comment_ratings.new(user_id: current_user.id)
-    @user_comment_rating.rating = comment_rating_params[:rating]  # You need to specify where the rating value is coming from
+    @user_comment_rating.rating = comment_rating_params[:rating]
 
     respond_to do |format|
       if @user_comment_rating.save

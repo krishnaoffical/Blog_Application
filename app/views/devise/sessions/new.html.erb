@@ -46,6 +46,7 @@
       <div class="card">
         <div class="card-header"><h2>Log in</h2></div>
         <div class="card-body">
+
           <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form" }) do |f| %>
             <div class="form-group">
               <%= f.label :email %>

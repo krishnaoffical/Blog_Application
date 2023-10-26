@@ -73,6 +73,10 @@ gem 'bootstrap-sass'
 group :development do
   gem 'bullet'
 end
+group :development do
+  gem 'letter_opener'
+end
+
 
 
 gem "rails-ujs", "~> 0.1.0"
