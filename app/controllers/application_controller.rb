@@ -1,8 +1,5 @@
 class ApplicationController < ActionController::Base
-  # include Pundit::Authorization
-  # include CanCan::AccessDenied
   before_action :authenticate_user!
-  # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from CanCan::AccessDenied do |exception|
     user_not_authorized
     end

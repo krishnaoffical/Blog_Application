@@ -20,10 +20,11 @@
           }
       }
 
+
   </script>
   <%= stylesheet_link_tag 'posts' %>
 </head>
-<%= form_with(model: [@topic,post], local: true, multipart: true) do |form| %>
+<%= form_with(model: [@topic,post],local: false, id: 'post-form') do |form| %>
   <% if post.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
@@ -70,6 +71,6 @@
 
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit  %>
   </div>
 <% end %>

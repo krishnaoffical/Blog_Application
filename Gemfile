@@ -22,7 +22,7 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'will_paginate'
-# gem 'will_paginate-bootstrap'
+gem 'will_paginate-bootstrap'
 # Gemfile
 # gem 'kaminari'
 
@@ -69,3 +69,9 @@ gem "devise", "~> 4.9"
 gem "pundit", "~> 2.3"
 
 gem "cancancan", "~> 3.5"
+gem 'bootstrap-sass'
+
+
+gem "rails-ujs", "~> 0.1.0"
+
+gem "jquery-rails", "~> 4.6"

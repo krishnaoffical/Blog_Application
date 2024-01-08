@@ -1,11 +1,65 @@
-<p id="notice"><%= notice %></p>
 
+<head>
+  <%= stylesheet_link_tag 'posts' %>
+    <script>
+
+      document.addEventListener("DOMContentLoaded", function () {
+          // Assuming you have a variable 'currentUserId' that holds the ID of the current user.
+          var currentUserId = <%= current_user.id if current_user %>;
+
+          // Function to check and update read status
+          function checkAndUpdateReadStatus() {
+              // Get all post elements with unread indicators
+              var unreadIndicators = document.querySelectorAll(".unread-indicator");
+
+              // Loop through each post with an unread indicator and make an AJAX call
+              unreadIndicators.forEach(function (unreadIndicator) {
+                  var postId = unreadIndicator.getAttribute("data-post-id");
+                  var topicId = unreadIndicator.getAttribute("data-topic-id");
+                  var xhr = new XMLHttpRequest();
+
+                  // Update the URL to include both :topic_id and :id parameters
+                  xhr.open("GET", "/topics/" + topicId + "/posts/" + postId + "/read_status", true);
+                  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+                  xhr.onload = function () {
+                      if (xhr.status === 200) {
+                          var response = JSON.parse(xhr.responseText);
+
+                          // Update the indicator based on the response
+                          if (response.read) {
+                              unreadIndicator.innerText = "Read";
+                              unreadIndicator.classList.remove("unread");
+                              unreadIndicator.classList.add("read");
+                          } else {
+                              unreadIndicator.innerText = "Unread";
+                              unreadIndicator.classList.remove("read");
+                              unreadIndicator.classList.add("unread");
+                          }
+                      } else {
+                          console.log("Error checking read status.");
+                      }
+                  };
+
+                  xhr.send();
+              });
+          }
+
+          // Set an interval to periodically check and update read status (e.g., every 5 seconds)
+         // setInterval(checkAndUpdateReadStatus,5000)
+          checkAndUpdateReadStatus();
+      });
+
+  </script>
+
+</head>
+
+<div id="post-list">
 <% if @topic %>
   <h1>Posts for <%= @topic.name %> Topic</h1>
 <% else %>
   <h1>All Posts</h1>
 <% end %>
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -14,14 +68,15 @@
       <th>Date</th>
       <th>Tags</th>
       <th>Author(User)</th>
-      <!--      <th>Topic</th>-->
+            <th>Ratings(Avg)</th>
+        <th>No.of Comments</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
   <%if @topic %>
-    <% @topic.posts.each do |post| %>
+    <% @posts.each do |post| %>
       <tr>
         <td><%= post.name %></td>
         <td><%= post.content %></td>
@@ -33,13 +88,40 @@
         <%else %>
           <td>Unknown</td>
         <%end %>
+        <% if @average_ratings[post.id].present? %>
+            <% filled_stars = @average_ratings[post.id].round %>
+              <td><div class="star-count">
+    <% 5.times do |i| %>
+      <% if i < filled_stars %>
+        <span class="star filled">&#9733;</span>
+      <% else %>
+        <span class="star">&#9733;</span>
+      <% end %>
+                  <%end %>
+    (<%= '%.1f' % @average_ratings[post.id] %> stars)
+      </div>
+      </td>
+        <% else %>
+          <td>No ratings yet</td>
+        <% end %>
+          <% if @comment_count[post.id].present? %>
+            <td><%= @comment_count[post.id] %> comments</td>
+          <% else %>
+            <td>No comments yet</td>
+          <% end %>
 
         <td><%= link_to 'Show', topic_post_path(@topic,post) %></td>
         <%# if current_user == post.user %>
+        <%#if can? :edit,post %>
         <td><%= link_to 'Edit', edit_topic_post_path(@topic,post) %></td>
+        <%#end %>
         <td><%= button_to 'Destroy', topic_post_path(@topic,post), method: :delete, data: { confirm: 'Are you sure?' } %></td>
           <%#end %>
 
+
+        <td class="unread-indicator" data-topic-id="<%= post.topic.id %>" data-post-id="<%= post.id %>">
+          Unread
+        </td>
 
       </tr>
     <% end %>
@@ -49,12 +131,33 @@
         <td><%= post.name %> (<%= post.topic.name %>)</td>
         <td><%= post.content %></td>
         <td><%= post.date %></td>
+        <td><%= render post.tags %></td>
         <% if post.user.present? %>
         <td><%= post.user.email %></td>
           <%else %>
           <td>Unknown</td>
           <%end %>
-        <td><%= render post.tags %></td>
+        <% if @average_ratings[post.id].present? %>
+          <% filled_stars = @average_ratings[post.id].round %>
+          <td><div class="star-count">
+            <% 5.times do |i| %>
+              <% if i < filled_stars %>
+                <span class="star filled">&#9733;</span>
+              <% else %>
+                <span class="star">&#9733;</span>
+              <% end %>
+            <%end %>(<%= '%.1f' % @average_ratings[post.id] %> stars)</div></td>
+        <% else %>
+          <td>No ratings yet</td>
+        <% end %>
+        <% if @comment_count[post.id].present? %>
+          <td><%= @comment_count[post.id] %> comments</td>
+        <% else %>
+          <td>No comments yet</td>
+        <% end %>
+        <td class="unread-indicator" data-topic-id="<%= post.topic.id %>" data-post-id="<%= post.id %>">
+          Unread
+        </td>
 
       </tr>
 
@@ -66,16 +169,46 @@
 
 <br>
 
-  <div class="d-flex justify-content-center">
-    <%= will_paginate @posts %>
-    <%#= paginate @posts %>
-  </div>
-
+<div class="pagination-container">
+  <%= will_paginate @posts %>
+</div>
 
 <%if @topic %>
-<%= link_to 'New Post', new_topic_post_path %> |
-<%= link_to 'Back to Topic', topic_path(@topic) %>
+  <%= link_to 'New Post', new_topic_post_path(@topic),remote: true ,id: 'open-post-form-link'%>
+  <div id="new-post-form-container"></div>
+  <%= link_to 'Back to Topic', topic_path(@topic) %>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Handle the click event for opening the new post form
+            var openPostFormLink = document.getElementById('open-post-form-link');
+            var newPostFormContainer = document.getElementById('new-post-form-container');
+
+            openPostFormLink.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+                openPostFormLink.style.display = 'none';
+                // Create a new XMLHttpRequest
+                var xhr = new XMLHttpRequest();
+
+                // Set up the request
+                xhr.open('GET', '<%= new_topic_post_path(@topic) %>', true);
+
+                // Define the event handler for when the request is completed
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // Insert the form HTML into the container
+                        newPostFormContainer.innerHTML = xhr.responseText;
+                    } else {
+                        alert('Error fetching form: ' + xhr.statusText);
+                    }
+                };
+
+                // Send the request
+                xhr.send();
+            });
+        });
+
+    </script>
 <%else %>
   <%= link_to 'Back to home', root_path%>
 <%end %>
-
+</div>

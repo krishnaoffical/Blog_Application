@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_30_113144) do
+ActiveRecord::Schema.define(version: 2023_10_03_094808) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -65,6 +65,16 @@ ActiveRecord::Schema.define(version: 2023_09_30_113144) do
     t.integer "tag_id"
   end
 
+  create_table "posts_users_read_statuses", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "post_id", null: false
+    t.boolean "read", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_posts_users_read_statuses_on_post_id"
+    t.index ["user_id"], name: "index_posts_users_read_statuses_on_user_id"
+  end
+
   create_table "ratings", force: :cascade do |t|
     t.integer "rating_value"
     t.integer "post_id", null: false
@@ -109,5 +119,7 @@ ActiveRecord::Schema.define(version: 2023_09_30_113144) do
   add_foreign_key "posts", "users"
   add_foreign_key "posts_tags", "posts"
   add_foreign_key "posts_tags", "tags"
+  add_foreign_key "posts_users_read_statuses", "posts"
+  add_foreign_key "posts_users_read_statuses", "users"
   add_foreign_key "ratings", "posts"
 end

@@ -5,4 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :posts
   has_many :comments
+  has_and_belongs_to_many :posts,join_table: 'posts_users_read_statuses'
 end

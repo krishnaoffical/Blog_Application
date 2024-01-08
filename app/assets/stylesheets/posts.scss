@@ -51,8 +51,8 @@ input[type="radio"]:checked + label {
   padding: 10px; /* Add some padding to make it look like an input field */
   border: 2px solid gray; /* Add a border */
   border-radius: 4px; /* Round the corners */
-  resize: vertical; /* Allow vertical resizing of the textarea */
   min-height: 100px; /* Set a minimum height */
+  resize: both;
 }
 
 #image-preview {
@@ -92,4 +92,53 @@ input[type="radio"]:checked + label {
 .tag:hover {
   background-color: #0056b3; /* Change background color on hover */
   cursor: pointer; /* Show a pointer cursor on hover */
+}
+/* app/assets/stylesheets/application.css */
+
+td.read {
+  color: green; /* Style for read posts */
+}
+
+td.unread {
+  color: red; /* Style for unread posts */
+}
+/* Pagination container */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Pagination link */
+.pagination-container a.page-link {
+  text-decoration: none;
+  color: #007bff; /* Link color */
+  margin: 0 5px; /* Add some space between links */
+}
+
+/* Active pagination link */
+.pagination-container .page-item.active a.page-link {
+  font-weight: bold; /* Highlight the active link */
+  background-color: #007bff; /* Background color of the active link */
+  color: #fff; /* Text color of the active link */
+  border-color: #007bff; /* Border color of the active link */
+}
+
+.loading-icon {
+  display: none; /* Initially, hide the loading icon */
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  padding: 10px;
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 20px 0;
+  animation: spin 2s linear infinite; /* Add a simple spinning animation */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
