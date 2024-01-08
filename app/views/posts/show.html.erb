@@ -1,0 +1,106 @@
+<head>
+  <%= stylesheet_link_tag 'posts' %>
+</head>
+
+<h1>Post Details</h1>
+<p>
+  <strong>Image Posted:</strong>
+  <% if @post && @post.image.attached? %>
+    <%= link_to image_tag(@post.image, loading: "lazy", class: "image"), @post.image%>
+  <% else %>
+    No image attached.
+  <% end %>
+
+</p>
+<p>
+  <strong>Name:</strong>
+  <%= @post.name %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @post.content %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @post.date %>
+</p>
+
+
+<p><strong>Tags:</strong>
+  <%=render @post.tags%>
+</p>
+<div>
+<div>
+<% if @average_rating.any? %>
+    <strong>Ratings Count:</strong>
+      <% (1..5).each do |rating_value| %>
+    <div class="star-count">
+    <% 5.times do |i| %>
+      <% if i < rating_value %>
+        <span class="star filled">&#9733;</span>
+      <% else %>
+        <span class="star">&#9733;</span>
+      <% end %>
+          <% end %>(<%= @ratings_grouped[rating_value] || 0 %>)</div>
+      <% end %>
+    </div>
+
+  <% average_rating =@average_rating[@post.id]  %>
+  <% filled_stars = average_rating.round %>
+  <p><strong>Average Rating: </strong>
+  <span class="star-rating">
+    <% 5.times do |i| %>
+      <% if i < filled_stars %>
+        <span class="star filled">&#9733;</span>
+      <% else %>
+        <span class="star">&#9733;</span>
+      <% end %>
+    <% end %>
+<% else %>
+  <p>No ratings yet.</p>
+<% end %>
+</span></p>
+  </div>
+<div>
+  <strong>Author(User):</strong>
+<% if @post.user.present? %>
+    <p><%= @post.user.email %></p>
+<%else %>
+  <p>Unknown</p>
+<%end %>
+</div>
+<p>
+  <strong>Comments:</strong>
+  <%= render @post.comments.order(id: :desc) %>
+</p>
+
+<p>
+  <strong>Ratings:</strong>
+  <%= render @post.ratings.order(id: :desc)%>
+</p>
+<div style="display: flex; justify-content:space-around;">
+  <div>
+    <%= render 'comments/form', locals: { comment: @comment } %>
+    <%= link_to 'All Comments', topic_post_comments_path(@topic,@post) %>
+  </div>
+  <div>
+    <%= render 'ratings/form' %>
+    <%= link_to 'All Ratings',topic_post_ratings_path(@topic,@post) %>
+  </div>
+</div>
+
+
+
+
+
+<!--<h2>Create New Rating</h2>-->
+<%#= render template: 'ratings/new'%>
+<div class="text-center">
+  <%# if current_user == @post.user %>
+  <%= link_to 'Edit Post',edit_topic_post_path(@topic,@post) %> |
+    <%#end %>
+<%= link_to 'Back', topic_posts_url(@topic) %>
+
+</div>

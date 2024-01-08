@@ -1,0 +1,27 @@
+<head>
+  <%= stylesheet_link_tag 'posts' %>
+</head>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Rating:</strong>
+  <%= @rating.rating_value %>
+</p>
+ <p> <strong>Stars:</strong>
+  <span class="star-rating">
+    <% 5.times do |i| %>
+      <% if i < @rating.rating_value %>
+        <span class="star filled">&#9733;</span>
+      <% else %>
+        <span class="star">&#9733;</span>
+      <% end %>
+          <% end %></span>
+</p>
+
+<!--<p>-->
+<!--  <strong>Post:</strong>-->
+  <%#= @comment.post_id %>
+<!--</p>-->
+
+<%= link_to 'Edit', edit_topic_post_rating_path(@topic,@post,@rating) %> |
+<%= link_to 'Back', topic_post_path(@topic,@post) %>

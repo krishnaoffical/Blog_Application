@@ -1,0 +1,75 @@
+<head>
+  <script>
+      function previewImage(input) {
+          var preview = document.getElementById('image-preview');
+          preview.innerHTML = ''; // Clear any previous preview
+
+          if (input.files && input.files[0]) {
+              var reader = new FileReader();
+
+              reader.onload = function (e) {
+                  var img = document.createElement('img');
+                  img.setAttribute('src', e.target.result);
+                  img.setAttribute('alt', 'Image Preview');
+                  img.style.maxWidth = '100%';// Adjust the maximum width as needed
+
+                  preview.appendChild(img);
+              };
+
+              reader.readAsDataURL(input.files[0]);
+          }
+      }
+
+  </script>
+  <%= stylesheet_link_tag 'posts' %>
+</head>
+<%= form_with(model: [@topic,post], local: true, multipart: true) do |form| %>
+  <% if post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_field :content %>
+  </div>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.datetime_select :date %>
+  </div>
+
+  <div class="field">
+
+    <%= form.label :tag %>
+
+      <%=form.collection_select(:tag_ids, Tag.all, :id, :tag, {prompt: "Choose a tag"},{multiple: true})%>
+    <%= form.text_field :new_tag, placeholder: "New Tag Name" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :image %>
+    <%= form.file_field :image, onchange: 'previewImage(this);' %>
+  </div>
+
+  <div id="image-preview">
+    <!-- Preview will be displayed here -->
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

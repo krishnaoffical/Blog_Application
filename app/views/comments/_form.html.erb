@@ -1,0 +1,41 @@
+<head>
+  <%= stylesheet_link_tag 'posts' %>
+</head>
+<%if @comment %>
+<%= form_with(model: [@topic,@post,@comment]) do |form| %><!--,url: topic_post_comments_url(@topic, @post)-->
+  <% if @comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+        <% @comment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :content %><br>
+    <%= form.text_area :content %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+<%else %>
+<%= form_with(model: [@topic,@post, Comment.new]) do |form| %>
+
+    <div class="field">
+      <%= form.label :comment, class: "comment-label" %><br>
+      <%= form.text_area :content, class: "comment-input" %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Add Comment" %>
+    </div>
+
+<%end %>
+<%end %>

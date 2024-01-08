@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Comments for <%= @post.name %> post</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Comment</th>
+      <th>Author(User)</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <%#if @topic && @post %>
+    <% @post.comments.each do |comment| %>
+      <tr>
+        <td><%= comment.content %></td>
+        <td><%= comment.user.email %></td>
+        <td><%= link_to 'Show', topic_post_comment_path(@topic,@post,comment) %></td>
+        <%# if current_user == comment.user %>
+        <td><%= link_to 'Edit', edit_topic_post_comment_path(@topic,@post,comment) %></td>
+        <td><%= button_to 'Destroy', topic_post_comment_path(@topic,@post,comment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <%#end %>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Comment', new_topic_post_comment_path %> |
+<%= link_to 'Back to Post', topic_post_path(@topic,@post) %>
