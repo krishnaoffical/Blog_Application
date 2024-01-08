@@ -1,6 +1,17 @@
-<h1>Editing Topic</h1>
+<head>
+  <%= stylesheet_link_tag 'topics' %>
+</head>
+<div class="container">
+  <div class="d-flex flex-column align-items-center">
+    <div class="card blue">
+      <div class="card-body">
+        <h1 class="card-title text-center">Edit Topic</h1>
 
 <%= render 'form', topic: @topic %>
 
 <%= link_to 'Show', @topic %> |
 <%= link_to 'Back', topics_path %>
+      </div>
+    </div>
+  </div>
+</div>

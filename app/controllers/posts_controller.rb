@@ -12,13 +12,23 @@ class PostsController < ApplicationController
       if @topic.nil?
         redirect_to root_path, alert: "Topic not found"
       else
-        @posts = @topic.posts
+        @posts = @topic.posts.includes(:user,:tags)
         # @posts = @topic.posts.page(params[:page]).per(10)
       end
     else
       #  @posts = Post.page(params[:page]).per(10)
-      @posts = Post.all
+      @posts = Post.all.includes(:user,:tags,:topic)
+      if params[:from_date].present?
+        from_date = Date.parse(params[:from_date])
+        to_date = params[:to_date].present? ? Date.parse(params[:to_date]) : Date.today
+      else
+        # If parameters are not provided, assign default values
+        from_date = Date.yesterday
+        to_date = Date.today
+      end
+      @posts = @posts.created_between(from_date, to_date)
     end
+
     # Assuming you've already executed the pagination line
     @posts = @posts.paginate(page: params[:page], per_page: 10)
 
@@ -27,13 +37,11 @@ class PostsController < ApplicationController
 
     # Output the result (for example, in a view or console)
     puts "Number of records on the current page: #{number_of_records_on_current_page}"
-
-    @average_ratings = Rating.group(:post_id).average(:rating_value)
-    @comment_count = Comment.group(:post_id).count
   end
       # GET /posts/1 or /posts/1.json
   def show
     # @post.user = current_user
+    @post = Post.includes(:tags).find(params[:id])
     @average_rating = Rating.where(post_id: @post.id).group(:post_id).average(:rating_value)
     @ratings_grouped = @post.ratings.group(:rating_value).count
     current_user.posts << @post unless current_user.posts.include?(@post)

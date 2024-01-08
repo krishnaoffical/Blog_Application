@@ -1,9 +1,9 @@
 <head>
   <%= stylesheet_link_tag 'posts' %>
-      <script>
-          // Assuming you have a variable 'currentUserId' that holds the ID of the current user.
-          checkAndUpdateReadStatus();
-  </script>
+<!--      <script>-->
+<!--          // Assuming you have a variable 'currentUserId' that holds the ID of the current user.-->
+<!--          checkAndUpdateReadStatus();-->
+<!--  </script>-->
 
 </head>
 
@@ -78,7 +78,7 @@
 </div>
 <p>
   <strong>Comments:</strong>
-  <%= render @post.comments.order(id: :desc) %>
+  <%= render @post.comments.includes(:user).order(id: :desc) %>
 </p>
 
 <p>

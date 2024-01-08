@@ -2,34 +2,73 @@
 <html>
 <head>
   <title>WorkingProject</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-  <%#= stylesheet_link_tag 'application', media: 'all' %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   <%= javascript_include_tag 'rails-ujs' %>
   <%= javascript_include_tag 'jquery3' %>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <% if user_signed_in? && !(controller_name.eql?('posts') && action_name.eql?('new')) %>
+          <li class="nav-item">
+            <p class="nav-link">Welcome, <%= current_user.email %>!</p>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Edit Profile", edit_user_registration_path, {remote: :true ,'data-toggle' =>  "modal", 'data-target' => '#exampleModal',  class: 'nav-link',id: 'edit-profile'}  %>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content" id="model-for-edit">
+                  <div class="modal-header">
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                  </div>
+              </div>
+            </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
+          </li>
+        <% elsif !(controller_name.eql?('posts') && action_name.eql?('new')) %>
+          <li class="nav-item">
+            <%= link_to 'Log in', new_user_session_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign up', new_user_registration_path, class: 'nav-link' %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container mt-4">
+  <% if notice %>
+    <div class="alert alert-success" role="alert">
+      <%= notice %>
+    </div>
+  <% end %>
 
-
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-
-<%= yield %>
-<div class="container text-center mt-5">
-  <% if user_signed_in?&& !(controller_name.eql?('posts') && action_name.eql?('new'))%>
-    <p>Welcome, <%= current_user.email %>!</p>
-    <%= link_to "Edit Profile", edit_user_registration_path, class: 'btn btn-primary profile-button' %>
-    <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-danger profile-button' %>
-
-  <% elsif !(controller_name.eql?('posts') && action_name.eql?('new'))%>
-    <%= link_to 'Log in', new_user_session_path, class: 'btn btn-primary' %>
-    <%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-success' %>
+  <% if alert %>
+    <div class="alert alert-danger" role="alert">
+      <%= alert %>
+    </div>
   <% end %>
 </div>
+<%= yield %>
 </body>
 </html>

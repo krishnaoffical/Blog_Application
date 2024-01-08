@@ -16,7 +16,28 @@
 
   <tbody>
   <%#if @topic && @post %>
-  <% @post.ratings.each do |rating| %>
+  <%if @comment %>
+    <% @comment.user_comment_ratings.each do |rating| %>
+      <tr>
+        <td><%= rating.rating %></td>
+        <td><% filled_stars = rating.rating.round %>
+          <span class="star-rating">
+    <% 5.times do |i| %>
+      <% if i < filled_stars %>
+        <span class="star filled">&#9733;</span>
+      <% else %>
+        <span class="star">&#9733;</span>
+      <% end %>
+          <% end %></span></td>
+        <!--        <td><%#= comment.post_id %></td>-->
+        <td><%= link_to 'Show', topic_post_rating_path(@topic,@post,rating) %></td>
+        <td><%= link_to 'Edit', edit_topic_post_rating_path(@topic,@post,rating) %></td>
+        <td><%= button_to 'Destroy', topic_post_rating_path(@topic,@post,rating), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+
+<%else %>
+    <% @post.ratings.each do |rating| %>
     <tr>
       <td><%= rating.rating_value %></td>
       <td><% filled_stars = rating.rating_value.round %>
@@ -34,10 +55,15 @@
       <td><%= button_to 'Destroy', topic_post_rating_path(@topic,@post,rating), method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end %>
+    <%end %>
 
   </tbody>
 </table>
 
 <br>
+<%if @comment %>
+  <%= link_to 'Back to Post', topic_post_path(@topic,@post) %>
+  <%else %>
 <%= link_to 'New Rating', new_topic_post_rating_path(@topic,@post) %>|
 <%= link_to 'Back to Post', topic_post_path(@topic,@post) %>
+<%end %>

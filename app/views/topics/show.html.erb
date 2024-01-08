@@ -1,5 +1,10 @@
-<p id="notice"><%= notice %></p>
-
+<head>
+  <%= stylesheet_link_tag 'topics' %>
+</head>
+<div class="container">
+  <div class="d-flex flex-column align-items-center">
+    <div class="card blue">
+      <div class="card-body">
 <p>
   <strong>Name:</strong>
   <%= @topic.name %>
@@ -19,7 +24,10 @@
   <strong>Published by:</strong>
   <%= @topic.published_by %>
 </p>
-<%#= link_to 'Show', topic_posts_path(@topic) %>
 <%= link_to 'Edit', edit_topic_path(@topic) %> |
 <%= link_to 'Back', topics_path %>   |
 <%= link_to 'Post', topic_posts_path(@topic) %>
+      </div>
+    </div>
+  </div>
+</div>
